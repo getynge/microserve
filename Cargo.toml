@@ -1,0 +1,15 @@
+[package]
+name = "microserve"
+version = "0.1.0"
+authors = ["getynge <sparklytarnish+git@protonmail.com>"]
+
+[profile.release]
+opt-level = 3
+debug = false
+rpath = false
+lto = true
+panic = 'abort'
+
+[dependencies]
+hyper = "0.12.13"
+futures = "0.1.25"
