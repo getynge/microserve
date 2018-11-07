@@ -17,7 +17,13 @@ fn get_file(req: Request<Body>) -> BoxFut {
 
     match req.method() {
         &Method::GET => {
-            let path = format!("/www/{}", req.uri().path());
+            let uri = req.uri().path();
+            let path;
+            if uri.ends_with("/") {
+                path = format!("./www/{}/index.html", uri)
+            } else {
+                path = format!("./www/{}", uri)
+            }
             if let Ok(mut file) = File::open(path) {
                 let mut contents = String::new();
                 match file.read_to_string(&mut contents) {
@@ -37,7 +43,7 @@ fn get_file(req: Request<Body>) -> BoxFut {
 }
 
 fn main() {
-    let addr = ([127, 0, 0, 1], 80).into();
+    let addr = ([0, 0, 0, 0], 80).into();
     let server = Server::bind(&addr)
         .serve(|| service_fn(get_file))
         .map_err(|e| eprintln!("error: {}", e));
