@@ -15,14 +15,14 @@ static GLOBAL: System = System;
 
 type BoxFut = Box<Future<Item = Response<Body>, Error = hyper::Error> + Send>;
 
-fn get_file(base_path: String, req: Request<Body>) -> BoxFut {
+fn get_file(base_path: &str, req: &Request<Body>) -> BoxFut {
     let mut response = Response::new(Body::empty());
 
-    match req.method() {
-        &Method::GET => {
+    match *req.method() {
+        Method::GET => {
             let uri = req.uri().path();
             let path;
-            if uri.ends_with("/") {
+            if uri.ends_with('/') {
                 path = format!("{}/{}/index.html", base_path, uri)
             } else {
                 path = format!("{}/{}", base_path, uri)
@@ -57,7 +57,7 @@ fn main() {
     let server = Server::bind(&addr)
         .serve(move || {
             let copy = base_path.clone();
-            service_fn(move |r| get_file(copy.clone(), r))
+            service_fn(move |r| get_file(&copy, &r))
         })
         .map_err(|e| eprintln!("error: {}", e));
 
