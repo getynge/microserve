@@ -1,0 +1,20 @@
+name: microserve
+version: "0.1.0"
+about: A tiny file server written in rust
+args:
+  - base_path:
+      short: b
+      long: base-path
+      value_name: base_path
+      env: BASE_PATH
+      default_value: "./www/"
+      help: sets root directory files are loaded from, defaults to ./www/
+      takes_value: true
+  - port:
+      short: p
+      long: port
+      value_name: port
+      env: PORT
+      default_value: "80"
+      help: sets the port microserve listens on, defaults to 80, will also listen on 80 if argument isn't a number
+      takes_value: true

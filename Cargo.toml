@@ -13,3 +13,4 @@ panic = 'abort'
 [dependencies]
 hyper = "0.12.13"
 futures = "0.1.25"
+clap = {version = "2.32.0", features = ["yaml"]}
